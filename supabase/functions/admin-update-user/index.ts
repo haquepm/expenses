@@ -37,7 +37,7 @@ Deno.serve(async (req: Request) => {
     const isActive = body.is_active === true;
     const projectIds = Array.isArray(body.project_ids) ? [...new Set(body.project_ids.map((x: unknown) => String(x)))] : [];
 
-    if (!userId || !fullName || !email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) throw new Error("Enter a valid name and email address.");
+    if (!userId || !fullName || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("Enter a valid name and email address.");
     if (!["employee", "project_manager", "accounts", "management", "admin"].includes(role)) throw new Error("Invalid role.");
     if (userId === user.id && (!isActive || role !== "admin")) throw new Error("You cannot deactivate or remove your own administrator access.");
     if (projectIds.length && !["employee", "project_manager"].includes(role)) throw new Error("Only employees and Project Managers can be assigned to projects.");
