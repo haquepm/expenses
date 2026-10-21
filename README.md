@@ -1,45 +1,29 @@
 # Crescent Expense Management
 
-A dedicated employee site-expense advance, claim and settlement workspace for Crescent Contractors.
+Dedicated site-expense advance, claim and settlement application for Crescent Contractors.
 
-## Current state
+## Implemented
+- Next.js App Router with responsive employee and desktop layouts.
+- Supabase SSR email/password authentication and protected server session refresh.
+- Role-aware dashboard reading real employee advance balances and expense claims.
+- Employee expense submission with receipt upload to a private Storage bucket.
+- Database RPCs for atomic claim submission, PM approve/reject, Accounts verification/return, and advance issue/top-up/cash return.
+- Role-scoped claims queue with PM and Accounts decision controls.
+- PWA manifest and service worker.
+- 13 public tables with RLS enabled; security advisor returned no security findings after initial setup.
 
-The first UI/PWA scaffold is committed to `main`:
-- `index.html` — responsive management dashboard and employee mobile preview
-- `manifest.webmanifest` — installable web app metadata
-- `sw.js` — basic offline shell cache
+## Supabase
+Project ref: ngpodjrdznojmmbwfzmi (Mumbai). Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY (publishable/anon key only) in Vercel. Never expose a service-role key or commit credentials.
 
-The interface intentionally displays placeholders rather than fabricated financial data. It is a UI preview only; authentication, database writes, approvals, receipt uploads and live reports are not yet enabled.
+## Still required before production
+- Server-enforced single-device registration/reset and trusted session validation. Browser fingerprint alone is not strong authentication.
+- Admin provisioning UI, project assignment UI, category management, complete advance register/reconciliation, management reports and exports.
+- Automated negative authorization tests for cross-employee and cross-project access, file policies, workflow state transitions and ledger balances.
+- Production deployment, domain and environment configuration.
+- Configure Auth email/redirect URLs and test account recovery.
 
-## Confirmed operating rules
+## Ledger rules
+Each employee has one consolidated advance balance. Issue and top-up transactions remain separately auditable. Employees pay site vendors themselves from advances; the system records but does not initiate bank/UPI transfers. Every claim requires receipt proof. PM approves/rejects first, Accounts verifies second. Available balance = issued less submitted expenses. Unsettled balance = issued less verified expenses and cash returns. Admin does not bypass approvals.
 
-- Employees use their own login and the mobile app; one registered phone per employee account. Admin can reset device binding.
-- Project Managers, Accounts, Admin and Management use the desktop portal.
-- Each employee has one consolidated open advance balance. Each issue/top-up remains a separate auditable transaction.
-- Additional advances add to the existing consolidated balance, even when a balance remains outstanding.
-- Expenses are paid by employees from company advances; the system records transactions but does not initiate bank/UPI payments.
-- Every expense requires receipt/proof.
-- Approval sequence: Project Manager approval, then Accounts verification.
-- Track available balance (issued less submitted expenses) separately from unsettled balance (issued less verified expenses and recorded returns).
-- Admin manages users/access but does not approve expenses automatically.
-
-## Backend connection blocker
-
-The supplied Supabase project ref is `ngpodjrdznojmmbwfzmi`. It is not visible in any of the currently connected Supabase accounts, and the connected Supabase tool returns permission denied when asked to inspect it. No schema, Auth, Storage or project settings have been changed.
-
-To continue backend integration, reconnect/authorize the Supabase account that owns this project in the Supabase integration. Do not use or modify the Subcontractor Billing, Asset Management, Little Basket or Quotation Repository databases.
-
-## Planned production architecture
-
-- Next.js app with desktop management routes and mobile-first employee PWA.
-- Supabase Auth with server-verified sessions.
-- Role and project access stored in database-controlled records, not user-editable metadata.
-- RLS on every exposed table.
-- Private receipt bucket with user/project-scoped policies.
-- Server-side privileged operations only; never expose service-role or secret keys in browser code.
-- Append-only audit trail and controlled reversal/amendment for verified financial records.
-- Single-device binding enforced server-side; device reset is an audited admin action.
-
-## Local setup
-
-Backend credentials are deliberately not included. Once the project is authorized, add the project URL and publishable key to deployment environment variables. Do not commit secrets.
+## Local development
+Run npm install, copy .env.example to .env.local, set the Supabase publishable key, then npm run dev.
