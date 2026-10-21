@@ -1,0 +1,10 @@
+{
+  "name": "Crescent Expense Management",
+  "short_name": "Crescent Expenses",
+  "description": "Employee site expense advances and settlement portal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f7f4",
+  "theme_color": "#10251f",
+  "icons": []
+}
