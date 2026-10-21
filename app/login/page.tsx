@@ -1,0 +1,2 @@
+import LoginForm from "./login-form";
+export default function LoginPage(){return <main className="login-shell"><div className="login-card"><div className="brand-mark">C</div><p className="eyebrow">CRESCENT CONTRACTORS</p><h1>Expense Management</h1><p className="muted">Sign in with your company account to continue.</p><LoginForm/><p className="login-foot">Secure access · Role-based workspace</p></div></main>;}
