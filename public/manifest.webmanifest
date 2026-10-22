@@ -1,1 +1,17 @@
-{"name":"Crescent Expense Management","short_name":"Crescent Expenses","description":"Site expense advance and settlement portal","start_url":"/","display":"standalone","background_color":"#f4f7f4","theme_color":"#10251f","icons":[]}
+{
+  "id": "/",
+  "name": "Crescent Advance & Expense Management",
+  "short_name": "Crescent",
+  "description": "Company advance and expense management portal",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#00352e",
+  "theme_color": "#00352e",
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "/icons/crescent-app.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icons/crescent-app.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
