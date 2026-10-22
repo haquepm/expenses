@@ -97,3 +97,43 @@ td{border-color:rgba(210,239,222,.09)}
 input::placeholder,textarea::placeholder{color:#78988a}
 a:hover{color:var(--lime)}
 @media(max-width:720px){.sidebar{background:linear-gradient(90deg,#003d34,#002d27);border-bottom:1px solid var(--line)}.topbar{background:rgba(0,52,45,.9)}}
+
+
+/* Readability pass: modestly larger typography throughout the workspace */
+body{font-size:15px}
+body,p,li,label,input,select,textarea,button{font-size:inherit}
+.brand small{font-size:13px}
+.nav-caption{font-size:12px;letter-spacing:.13em}
+.nav-link{font-size:15px;padding-top:15px;padding-bottom:15px}
+.breadcrumb,.top-user,.secure-note,.signout{font-size:13px}
+.welcome-row .eyebrow,.page-heading .eyebrow{font-size:12px;letter-spacing:.16em}
+.welcome-row h1,.page-heading h1{font-size:34px;line-height:1.2}
+.welcome-row p,.page-heading>p{font-size:15px;line-height:1.6}
+.metric-label{font-size:13px}
+.metric-card strong{font-size:30px;line-height:1.2}
+.metric-card small{font-size:12px;line-height:1.5}
+.section-heading h2{font-size:21px}
+.section-heading p{font-size:13px}
+.text-link{font-size:13px}
+th{font-size:11px;letter-spacing:.09em}
+td{font-size:13px}
+td b{font-size:14px}
+.status-pill,.status-badge,.claim-status{font-size:11px}
+.info-strip strong{font-size:13px}
+.info-strip p{font-size:12px;line-height:1.55}
+button,.primary-btn,.secondary-btn{font-size:13px}
+.report-export-heading h2{font-size:21px}
+.report-export-heading p:not(.eyebrow),.report-export-actions p{font-size:13px}
+.report-field>span{font-size:13px}
+.report-field select,.report-field input{font-size:14px;height:44px}
+.report-period-switch button{font-size:13px;min-height:42px}
+.report-download-button{font-size:13px;min-height:46px}
+.claim-top h3{font-size:18px}
+.claim-top p,.claim-number{font-size:13px}
+.claim-status,.verify-toggle,.line-verified{font-size:11px}
+@media(max-width:720px){
+ .welcome-row h1,.page-heading h1{font-size:28px}
+ .metric-card strong{font-size:27px}
+ .section-heading h2{font-size:19px}
+ td{font-size:13px}
+}
