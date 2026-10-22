@@ -27,7 +27,7 @@ export async function GET(request:NextRequest){
   const categoryResult=categoryIds.length?await supabase.from("expense_categories").select("id,name").in("id",categoryIds):{data:[],error:null};
   if(categoryResult.error)return NextResponse.json({error:"Unable to load categories."},{status:500});
   const people=new Map((peopleResult.data||[]).map(p=>[p.id,p])),projects=new Map((projectsResult.data||[]).map(p=>[p.id,p])),categories=new Map((categoryResult.data||[]).map(c=>[c.id,c.name]));
-  const itemsByClaim=new Map<string,any[]>();
+  const itemsByClaim=new Map<string,Array<{claim_id:string;description:string|null;amount:number|null;vendor_name:string|null;category_id:string|null}>>();
   for(const item of itemsResult.data||[]){const list=itemsByClaim.get(item.claim_id)||[];list.push(item);itemsByClaim.set(item.claim_id,list);}
   const header=["Expense Date","Claim No.","Employee","Employee Code","Site / Project","Category","Description","Vendor","Line Amount (INR)","Claim Total (INR)","Status","Purpose","Submitted At"];
   const output=[header,...rows.flatMap(c=>{const p=people.get(c.employee_id),site=projects.get(c.project_id),items=itemsByClaim.get(c.id)||[];return (items.length?items:[null]).map(i=>[c.expense_date,c.claim_number,p?.full_name,p?.employee_code,site?.site_name||site?.name,i?.category_id?categories.get(i.category_id):"",i?.description||"",i?.vendor_name||"",i?.amount??"",c.total_amount,c.status,c.purpose,c.submitted_at]);})];
