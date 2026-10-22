@@ -146,3 +146,13 @@ button,.primary-btn,.secondary-btn{font-size:13px}
  .expense-register,.verification-register,.claims-register,.table-card{width:100%;max-width:none}
  .expense-register table,.verification-register table,.claims-register table,.table-card table{width:100%;min-width:100%;table-layout:auto}
 }
+
+
+/* Full-width layout specifically for the Accounts / PM expense register */
+.main-panel>.content.standalone-content{display:block;width:100%;max-width:none;margin:0;padding-left:48px;padding-right:48px}
+.main-panel>.content.standalone-content .claims-register{width:100%;max-width:none}
+.main-panel>.content.standalone-content .claims-register .table-card{width:100%;max-width:none}
+.main-panel>.content.standalone-content .claims-register .claims-table{width:100%;min-width:1450px;table-layout:auto}
+.main-panel>.content.standalone-content .claims-register .claims-table th,
+.main-panel>.content.standalone-content .claims-register .claims-table td{padding-left:22px;padding-right:22px}
+@media(max-width:720px){.main-panel>.content.standalone-content{padding-left:16px;padding-right:16px}.main-panel>.content.standalone-content .claims-register .claims-table{min-width:1250px}}
