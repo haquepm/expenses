@@ -6,7 +6,7 @@ export async function GET(request:NextRequest){
   const {data:{user}}=await supabase.auth.getUser();
   if(!user)return NextResponse.json({error:"Unauthorised"},{status:401});
   const {data:profile}=await supabase.from("profiles").select("role,is_active").eq("id",user.id).maybeSingle();
-  if(profile?.role!=="admin"||!profile.is_active)return NextResponse.json({error:"Admin access required"},{status:403});
+  if(!["admin","accounts"].includes(profile?.role||"")||!profile?.is_active)return NextResponse.json({error:"Accounts or Admin access required"},{status:403});
   const params=request.nextUrl.searchParams;
   const from=params.get("from"),to=params.get("to"),employee=params.get("employee")||"",project=params.get("project")||"";
   if(!from||!to||!/^\d{4}-\d{2}-\d{2}$/.test(from)||!/^\d{4}-\d{2}-\d{2}$/.test(to)||from>to)return NextResponse.json({error:"Select a valid date range."},{status:400});
