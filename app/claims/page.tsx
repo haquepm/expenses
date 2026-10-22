@@ -24,7 +24,7 @@ export default async function ClaimsPage() {
     return { ...c, receiptUrl: data?.signedUrl || null };
   }));
   return <main className="content standalone-content">
-    <div className="section-heading page-heading"><div><p className="eyebrow">FINANCE OPERATIONS</p><h2>Expense claims</h2><p>{profile.role === "accounts" ? "Verify each expense line in one consolidated register." : profile.role === "project_manager" ? "Review each submitted claim once and approve or reject the full claim." : "Claims visible to your role and project access."}</p></div><Link className="text-link" href="/">← Dashboard</Link></div>
+    <div className="section-heading page-heading"><div><p className="eyebrow">FINANCE OPERATIONS</p><h2>Expense entries</h2><p>{profile.role === "accounts" ? "Verify each expense line in one consolidated register." : profile.role === "project_manager" ? "Review expense entries and approve the full submission in one action." : "Expense entries visible to your role and project access."}</p></div><Link className="text-link" href="/">← Dashboard</Link></div>
     {error && <p className="error">{error.message}</p>}
     <ClaimsReviewList claims={rows} role={profile.role} />
   </main>;
