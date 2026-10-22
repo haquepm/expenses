@@ -24,14 +24,6 @@ export default function ClaimsReviewList({claims,role}:{claims:Claim[];role:stri
     catch(e){setMessage(e instanceof Error?e.message:"Unable to verify expense line.");}
     finally{setBusy(null);}
   }
-  async function returnClaim(claim:Claim) {
-    const remarks=window.prompt("Please enter the reason for returning this claim");
-    if(remarks===null || !remarks.trim()) return;
-    setBusy(claim.id);setMessage("");
-    try { const result=await createClient().rpc("verify_expense_claim",{p_claim_id:claim.id,p_decision:"rejected",p_remarks:remarks}); if(result.error) throw result.error; router.refresh(); }
-    catch(e){setMessage(e instanceof Error?e.message:"Unable to return claim.");}
-    finally{setBusy(null);}
-  }
   if(!claims.length) return <div className="empty-card"><b>No claims found</b><p>New submitted expenses will appear here.</p></div>;
   if(role==="accounts") return <div className="claims-register">
     <div className="register-summary"><b>{claims.reduce((n,c)=>n+(c.expense_items?.length||0),0)} expense lines</b><span>{claims.length} claims · Accounts verification register</span></div>
