@@ -137,3 +137,12 @@ button,.primary-btn,.secondary-btn{font-size:13px}
  .section-heading h2{font-size:19px}
  td{font-size:13px}
 }
+
+
+/* Give the consolidated expense verification register more horizontal room */
+@media(min-width:1100px){
+ .main-panel .content{max-width:none;width:100%}
+ .main-panel .content>*,.main-panel .page-content{max-width:none}
+ .expense-register,.verification-register,.claims-register,.table-card{width:100%;max-width:none}
+ .expense-register table,.verification-register table,.claims-register table,.table-card table{width:100%;min-width:100%;table-layout:auto}
+}
