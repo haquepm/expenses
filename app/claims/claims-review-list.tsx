@@ -18,6 +18,21 @@ export default function ClaimsReviewList({claims,role}:{claims:Claim[];role:stri
     catch(e){setMessage(e instanceof Error?e.message:"Unable to save PM decision.");}
     finally{setBusy(null);}
   }
+  async function approveAll() {
+    if (!window.confirm("Approve all claims currently awaiting PM approval for your assigned projects?")) return;
+    setBusy("all"); setMessage("");
+    try {
+      const result = await createClient().rpc("approve_all_pm_claims");
+      if (result.error) throw result.error;
+      const count = Number(result.data || 0);
+      setMessage(count ? count + " claim(s) approved and sent to Accounts." : "There are no claims awaiting PM approval.");
+      router.refresh();
+    } catch (e) {
+      setMessage(e instanceof Error ? e.message : "Unable to approve claims.");
+    } finally {
+      setBusy(null);
+    }
+  }
   async function verifyLine(item:ExpenseItem) {
     setBusy(item.id);setMessage("");
     try { const result=await createClient().rpc("verify_expense_item",{p_item_id:item.id,p_verified:true,p_remarks:null}); if(result.error) throw result.error; router.refresh(); }
@@ -32,8 +47,22 @@ export default function ClaimsReviewList({claims,role}:{claims:Claim[];role:stri
     </tbody></table></div>{message&&<p className="error">{message}</p>}
     <p className="register-note">A claim moves to Verified automatically only after every expense line in that claim has been verified.</p>
   </div>;
-  if(role==="project_manager") return <div className="table-card table-scroll"><table className="claims-table"><thead><tr><th>Claim</th><th>Employee</th><th>Site / Project</th><th>Expense date</th><th>Purpose</th><th>Claim total</th><th>Proof</th><th>PM decision</th></tr></thead><tbody>
-    {claims.map(c=><tr key={c.id}><td><b>EX-{String(c.claim_number).padStart(5,"0")}</b><small>{c.expense_items?.length||0} line items</small></td><td>{c.profiles?.full_name||"Employee"}</td><td>{c.projects?.name||"Project"}{c.projects?.site_name?" / "+c.projects.site_name:""}</td><td>{new Date(c.expense_date+"T00:00:00").toLocaleDateString("en-IN")}</td><td>{c.purpose}</td><td className="amount">{money(Number(c.total_amount))}</td><td>{c.receiptUrl?<a className="receipt-link" href={c.receiptUrl} target="_blank" rel="noreferrer">↗ View proof</a>:"—"}</td><td><div className="claim-actions"><button disabled={busy===c.id} onClick={()=>pmDecision(c,"approved")}>Approve claim</button><button className="reject-btn" disabled={busy===c.id} onClick={()=>pmDecision(c,"rejected")}>Reject</button></div></td></tr>)}
-  </tbody></table>{message&&<p className="error" style={{padding:12}}>{message}</p>}</div>;
+  if(role==="project_manager") {
+    const pendingCount=claims.filter(c=>c.status==="pending_pm").length;
+    const statusLabel=(status:string)=>({
+      pending_pm:"PM Approval Pending",
+      pending_accounts:"Accounts Verification Pending",
+      verified:"Verified",
+      rejected_pm:"Rejected by PM",
+      rejected_accounts:"Returned by Accounts"
+    }[status]||status.replaceAll("_"," "));
+    return <div className="claims-register">
+      <div className="register-summary"><b>{claims.length} claims</b><span>{pendingCount} awaiting PM approval · Assigned projects only</span></div>
+      {pendingCount>0&&<div className="bulk-approval-bar"><span>Approve all {pendingCount} pending claim(s)</span><button className="bulk-approve-button" disabled={busy!==null} onClick={approveAll}>{busy==="all"?"Approving…":"Approve All Claims"}</button></div>}
+      <div className="table-card table-scroll"><table className="claims-table"><thead><tr><th>Claim</th><th>Employee</th><th>Site / Project</th><th>Expense date</th><th>Purpose</th><th>Claim total</th><th>Proof</th><th>PM decision / Status</th></tr></thead><tbody>
+      {claims.map(c=><tr key={c.id}><td><b>EX-{String(c.claim_number).padStart(5,"0")}</b><small>{c.expense_items?.length||0} line items</small></td><td>{c.profiles?.full_name||"Employee"}</td><td>{c.projects?.name||"Project"}{c.projects?.site_name?" / "+c.projects.site_name:""}</td><td>{new Date(c.expense_date+"T00:00:00").toLocaleDateString("en-IN")}</td><td>{c.purpose}</td><td className="amount">{money(Number(c.total_amount))}</td><td>{c.receiptUrl?<a className="receipt-link" href={c.receiptUrl} target="_blank" rel="noreferrer">↗ View proof</a>:"—"}</td><td><span className={"claim-status status-"+c.status}>{statusLabel(c.status)}</span></td></tr>)}
+      </tbody></table></div>{message&&<p className="bulk-approval-message">{message}</p>}
+    </div>;
+  }
   return <div className="claims-list">{claims.map(c=><article className="claim-card" key={c.id}><div className="claim-top"><div><span className="claim-number">EX-{String(c.claim_number).padStart(5,"0")}</span><h3>{c.purpose}</h3><p>{c.profiles?.full_name||"Employee"} · {c.projects?.name||"Project"} · {new Date(c.expense_date+"T00:00:00").toLocaleDateString("en-IN")}</p></div><strong>{money(Number(c.total_amount))}</strong></div></article>)}</div>;
 }
