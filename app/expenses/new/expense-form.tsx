@@ -30,7 +30,7 @@ export default function ExpenseForm({projects,categories,initialDrafts}:{project
   <div className="form-grid"><label>Vendor / paid to<input value={vendor} onChange={e=>setVendor(e.target.value)} placeholder="Vendor name / auto driver"/></label><label>Amount (₹)<input required type="number" min="0.01" step="0.01" value={amount} onChange={e=>setAmount(e.target.value)} placeholder="0.00"/></label></div>
   <label>Purpose / notes<textarea value={purpose} onChange={e=>setPurpose(e.target.value)} placeholder="Where and why was this expense incurred?"/></label>
   <div className="form-grid"><label>Voucher payee name<input value={payee} onChange={e=>setPayee(e.target.value)} placeholder="Person receiving payment"/></label><label>Cheque number (if applicable)<input value={cheque} onChange={e=>setCheque(e.target.value)} placeholder="Cheque number"/></label></div>
-  <div className="form-grid"><label>Cheque date (if applicable)<input type="date" value={chequeDate} onChange={e=>setChequeDate(e.target.value)}/><span></span></div>
+  <div className="form-grid"><label>Cheque date (if applicable)<input type="date" value={chequeDate} onChange={e=>setChequeDate(e.target.value)}/></label><span></span></div>
   <div className="form-actions"><button type="button" className="secondary-btn" onClick={currentVoucher}>Generate payment voucher</button><button className="primary-btn" disabled={busy||projects.length===0}>{busy?"Saving…":"Save expense entry"}</button></div>
   <p className="form-hint">Save each expense entry as you go. You can submit all saved entries together when finished.</p>
  </form>
