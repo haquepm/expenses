@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Crescent Advance & Expense Management",
-  "short_name": "Crescent",
-  "description": "Company advance and expense management portal",
+  "name": "Cres Pay",
+  "short_name": "Cres Pay",
+  "description": "Cres Pay — Company Advance & Expense Management",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
