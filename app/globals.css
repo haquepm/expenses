@@ -156,3 +156,34 @@ button,.primary-btn,.secondary-btn{font-size:13px}
 .main-panel>.content.standalone-content .claims-register .claims-table th,
 .main-panel>.content.standalone-content .claims-register .claims-table td{padding-left:22px;padding-right:22px}
 @media(max-width:720px){.main-panel>.content.standalone-content{padding-left:16px;padding-right:16px}.main-panel>.content.standalone-content .claims-register .claims-table{min-width:1250px}}
+
+
+/* Advance register: bring form and employee balance cards into the emerald theme */
+.advance-entry,
+.advance-card{
+  background:linear-gradient(145deg,rgba(8,81,69,.98),rgba(4,61,53,.98));
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  color:#eff8f1;
+}
+.advance-entry .entry-heading b,
+.advance-card>div:first-child b,
+.advance-numbers b{color:#f4fbf5}
+.advance-entry .entry-heading small,
+.advance-card>div:first-child small,
+.advance-numbers span{color:#b5cec2}
+.advance-entry label{color:#c5dbcf}
+.advance-entry input,
+.advance-entry select{
+  background:#033c34;
+  color:#f2faf4;
+  border-color:rgba(213,243,224,.2);
+}
+.advance-entry input:focus,
+.advance-entry select:focus{
+  border-color:#8ddf9e;
+  box-shadow:0 0 0 3px rgba(141,223,158,.13);
+}
+.advance-entry input::placeholder{color:#78988a}
+.advance-numbers{border-color:var(--line)}
+.advance-entry .primary-btn{background:var(--lime);color:#003b32}
