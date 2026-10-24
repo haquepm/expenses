@@ -187,3 +187,54 @@ button,.primary-btn,.secondary-btn{font-size:13px}
 .advance-entry input::placeholder{color:#78988a}
 .advance-numbers{border-color:var(--line)}
 .advance-entry .primary-btn{background:var(--lime);color:#003b32}
+
+
+/* Administration workspace: remove legacy white cards and restore readable contrast */
+.admin-card,
+.admin-layout .admin-card,
+.admin-layout .admin-columns>.admin-card{
+  background:linear-gradient(145deg,rgba(8,81,69,.98),rgba(4,61,53,.98)) !important;
+  color:#eff8f1 !important;
+  border:1px solid var(--line) !important;
+  box-shadow:var(--shadow);
+}
+.admin-card h3,
+.admin-card h2,
+.admin-card .section-heading h3{color:#f4fbf5 !important}
+.admin-card>p,
+.admin-card .section-heading p{color:#b5cec2 !important}
+.admin-form label,
+.admin-card label,
+.admin-card legend{color:#c5dbcf !important}
+.admin-form input,
+.admin-form select,
+.admin-form textarea,
+.admin-card input:not([type="checkbox"]),
+.admin-card select,
+.admin-card textarea{
+  background:#033c34 !important;
+  color:#f2faf4 !important;
+  border:1px solid rgba(213,243,224,.2) !important;
+}
+.admin-card input::placeholder,
+.admin-card textarea::placeholder{color:#78988a !important}
+.admin-card input:focus,
+.admin-card select:focus,
+.admin-card textarea:focus{
+  border-color:#8ddf9e !important;
+  box-shadow:0 0 0 3px rgba(141,223,158,.13) !important;
+  outline:none;
+}
+.admin-card .tag-list span,
+.admin-card .project-option{
+  background:rgba(234,255,243,.08) !important;
+  color:#d9eee2 !important;
+  border-color:rgba(213,243,224,.14) !important;
+}
+.admin-card fieldset,
+.admin-card .project-picker{border-color:rgba(213,243,224,.18) !important}
+.admin-card table{background:transparent !important;color:#eff8f1}
+.admin-card th{background:#073c34 !important;color:#b9d3c6 !important}
+.admin-card td{background:transparent !important;color:#d8e9df !important;border-color:rgba(210,239,222,.1) !important}
+.admin-card td b{color:#f4fbf5 !important}
+.admin-card .secondary-btn{background:rgba(255,255,255,.05);color:#e4f4e9;border-color:rgba(213,243,224,.2)}
