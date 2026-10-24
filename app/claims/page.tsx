@@ -17,12 +17,21 @@ export default async function ClaimsPage() {
 
   if (profile.role === "accounts") q = q.in("status", ["pending_accounts", "verified", "rejected_accounts"]);
   const { data: claims, error } = await q;
-  const rows = await Promise.all((claims || []).map(async (c: any) => {
+  // Sign all receipt URLs in one Storage request instead of one network
+  // round-trip per claim. This avoids a long waterfall on large registers.
+  const receiptPaths = (claims || [])
+    .map((c: any) => c.expense_attachments?.[0]?.storage_path)
+    .filter((path: string | undefined): path is string => Boolean(path));
+  const signedResult = receiptPaths.length
+    ? await supabase.storage.from("expense-receipts").createSignedUrls(receiptPaths, 600)
+    : { data: [], error: null };
+  const signedByPath = new Map(
+    (signedResult.data || []).map((item: any) => [item.path, item.signedUrl])
+  );
+  const rows = (claims || []).map((c: any) => {
     const path = c.expense_attachments?.[0]?.storage_path;
-    if (!path) return { ...c, receiptUrl: null };
-    const { data } = await supabase.storage.from("expense-receipts").createSignedUrl(path, 600);
-    return { ...c, receiptUrl: data?.signedUrl || null };
-  }));
+    return { ...c, receiptUrl: path ? signedByPath.get(path) || null : null };
+  });
   return <main className="content standalone-content">
     <div className="section-heading page-heading"><div><p className="eyebrow">FINANCE OPERATIONS</p><h2>Expense entries</h2><p>{profile.role === "accounts" ? "Verify each expense line in one consolidated register." : profile.role === "project_manager" ? "Review expense entries and approve the full submission in one action." : "Expense entries visible to your role and project access."}</p></div><Link className="text-link" href="/">← Dashboard</Link></div>
     {error && <p className="error">{error.message}</p>}
